@@ -12,6 +12,12 @@ router.post('/register',controller.teacherRegister)
 //login teacher
 router.post('/login',controller.login)
 
+//student create 
+router.post('/student/:teacherId',controller.studentSubjectMarks)
+
+//get student
+router.get('/student/:teacherId',controller.getStudent)
+
 
 
 
