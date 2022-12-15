@@ -1,20 +1,25 @@
-const route= require('./route/route')
-const express = require('express')
-const mongoose =require('mongoose')
+const express = require('express');
+const route = require('./route/routes.js');
+const mongoose = require('mongoose');
+const app = express();
+mongoose.set('strictQuery', false);
 
-const app= express()
-
-app.use(express.json())
-
-mongoose.connect("mongodb+srv://Rohitsch:S*Crohit16@cluster0.31aen.mongodb.net/mockAssignement",{
+app.use(express.json());
+mongoose.connect("mongodb+srv://Rohitsch:S*Crohit16@cluster0.31aen.mongodb.net/mockAssignement", {
     useNewUrlParser: true
 })
+.then( () => console.log("MongoDb is connected"))
+.catch ( err => console.log(err) )
 
-.then(()=>{console.log("mongo-Db is connected")})
-.catch((err)=>{console.log(err)})
+app.use('/', route)
 
-app.use('/',route)
-
-app.listen(3000, function(){
-    console.log("express is running on port 3000")
+app.use("/*", function (req, res) {
+    return res.status(400).send({
+        status: false, message: "Make Sure Your Endpoint is Correct !!!"
+    })
 })
+
+
+app.listen(process.env.PORT || 3000, function () {
+    console.log('Express app running on port ' + (process.env.PORT || 3000))
+});
